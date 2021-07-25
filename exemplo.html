@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Ping Pong</title>
-		<link type="text/css" rel="stylesheet" href="main.css" />
+		<link type="text/css" rel="stylesheet" href="ThreeJs/examples/main.css" />
 	</head>
 
 	<body>
@@ -11,7 +11,7 @@
 		<div id="container"></div>
 
 		<script type="module">
-			import * as THREE from "../build/three.module.js";
+			import * as THREE from '/ThreeJs/build/three.module.js';
 
 			// Scene
 			const scene = new THREE.Scene();
@@ -39,7 +39,7 @@
 
 			//Textures
 			const loader = new THREE.TextureLoader();
-			const hockeyDiskTexture = loader.load("textures/HockeyDisk.png");
+			const hockeyDiskTexture = loader.load("ThreeJs/examples/textures/HockeyDisk.png");
 
 			// Plane Object
 			const Size = 10;
@@ -57,13 +57,18 @@
 
 			scene.add(hockeyDiskObject);
 
+			var box = new THREE.Box3().setFromObject(hockeyDiskObject)
 
+			console.log(box)
+			
 			// Vars
 			var movementX = 0.5;
 			var movementY = 0.5;
 
 			// Animate Function
 			function animate() {
+
+
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
 
