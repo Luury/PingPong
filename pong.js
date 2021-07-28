@@ -75,19 +75,21 @@ renderer.render(scene, camera);
 hockeyDiskObject.position.x += movementX;
 hockeyDiskObject.position.y += movementY;
 
-if (hockeyDiskObject.position.x >= 300) {
+const hockeyDiskObjectBox = new THREE.Box3().setFromObject(hockeyDiskObject)
+
+if (hockeyDiskObjectBox.max.x >= 300) {
     movementX = -movementX;
 }
 
-if (hockeyDiskObject.position.x <= 0) {
+if (hockeyDiskObjectBox.min.x <= 0) {
     movementX = -movementX;
 }
 
-if (hockeyDiskObject.position.y >= 150) {
+if (hockeyDiskObjectBox.max.y >= 150) {
     movementY = -movementY;
 }
 
-if (hockeyDiskObject.position.y <= 0) {
+if (hockeyDiskObjectBox.min.y <= 0) {
     movementY = -movementY;
 }
 }
