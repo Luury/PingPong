@@ -10,12 +10,12 @@ const bottom = 150; // defautl canvas size
 const near = -1;
 const far = 1;
 const camera = new THREE.OrthographicCamera(
-left,
-right,
-top,
-bottom,
-near,
-far
+    left,
+    right,
+    top,
+    bottom,
+    near,
+    far
 );
 
 scene.background = new THREE.Color("black");
@@ -27,7 +27,7 @@ document.body.appendChild(renderer.domElement);
 //Textures
 const loader = new THREE.TextureLoader();
 const hockeyDiskTexture = loader.load(
-"ThreeJs/examples/textures/HockeyDisk.png"
+    "ThreeJs/examples/textures/HockeyDisk.png"
 );
 const PlayerTexture = loader.load("ThreeJs/examples/textures/Player.png");
 
@@ -36,9 +36,9 @@ const Size = 10;
 const geometryDisk = new THREE.PlaneGeometry(Size, Size);
 
 const materialDisk = new THREE.MeshBasicMaterial({
-transparent: true,
-map: hockeyDiskTexture,
-side: THREE.DoubleSide,
+    transparent: true,
+    map: hockeyDiskTexture,
+    side: THREE.DoubleSide,
 });
 const hockeyDiskObject = new THREE.Mesh(geometryDisk, materialDisk);
 
@@ -49,49 +49,56 @@ hockeyDiskObject.position.y = bottom / 2;
 const geometryPlayer = new THREE.PlaneGeometry(5, 30);
 
 const materialPlayer = new THREE.MeshBasicMaterial({
-transparent: true,
-map: PlayerTexture,
-side: THREE.DoubleSide,
+    transparent: true,
+    map: PlayerTexture,
+    side: THREE.DoubleSide,
 });
 const PlayerObject = new THREE.Mesh(geometryPlayer, materialPlayer);
 
 PlayerObject.position.y = bottom / 2;
 PlayerObject.position.x = 2;
 
+//Add Objects to Scene
 scene.add(PlayerObject);
 scene.add(hockeyDiskObject);
-
-////
 
 // Vars
 var movementX = 0.5;
 var movementY = 0.5;
+var player1Points = 0;
+var player2Points = 0;
+
 
 // Animate Function
 function animate() {
-requestAnimationFrame(animate);
-renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 
-hockeyDiskObject.position.x += movementX;
-hockeyDiskObject.position.y += movementY;
+    document.getElementById("player1Points").innerHTML = player1Points;
+    document.getElementById("player2Points").innerHTML = player2Points;
 
-const hockeyDiskObjectBox = new THREE.Box3().setFromObject(hockeyDiskObject)
+    hockeyDiskObject.position.x += movementX;
+    hockeyDiskObject.position.y += movementY;
 
-if (hockeyDiskObjectBox.max.x >= 300) {
-    movementX = -movementX;
-}
+    const hockeyDiskObjectBox = new THREE.Box3().setFromObject(hockeyDiskObject)
 
-if (hockeyDiskObjectBox.min.x <= 0) {
-    movementX = -movementX;
-}
+    if (hockeyDiskObjectBox.max.x >= 300) {
+        movementX = -movementX;
+        player1Points++
+    }
 
-if (hockeyDiskObjectBox.max.y >= 150) {
-    movementY = -movementY;
-}
+    if (hockeyDiskObjectBox.min.x <= 0) {
+        movementX = -movementX;
+        player2Points++
+    }
 
-if (hockeyDiskObjectBox.min.y <= 0) {
-    movementY = -movementY;
-}
+    if (hockeyDiskObjectBox.max.y >= 150) {
+        movementY = -movementY;
+    }
+
+    if (hockeyDiskObjectBox.min.y <= 0) {
+        movementY = -movementY;
+    }
 }
 
 //Start
